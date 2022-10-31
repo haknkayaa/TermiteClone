@@ -1,0 +1,9 @@
+# Project exclude paths
+/Application/cmake-build-debug/
+/.idea/.gitignore
+/Application/CMakeLists.txt.user
+/.idea/deployment.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/TermiteClone.iml
+/.idea/vcs.xml
