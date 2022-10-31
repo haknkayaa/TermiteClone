@@ -7,12 +7,12 @@ But I hope it can be useful for someone else.
 The application is still in development, but it is already usable.
 
 ### This is a screenshot of the application:
-![](https://github.com/haknkayaa/TermiteClone/blob/master/Application/resource/Screenshot 2022-10-31 140948.png)
-![](https://github.com/haknkayaa/TermiteClone/blob/master/Application/resource/Screenshot 2022-10-31 141028.png)
+![](https://github.com/haknkayaa/TermiteClone/blob/master/Application/resource/140948.png)
+![](https://github.com/haknkayaa/TermiteClone/blob/master/Application/resource/141028.png)
 
 ### This is original Termite:
-![](https://github.com/haknkayaa/TermiteClone/blob/master/Application/resource/Screenshot 2022-10-31 143816.png)
-![](https://github.com/haknkayaa/TermiteClone/blob/master/Application/resource/Screenshot 2022-10-31 143843.png)
+![](https://github.com/haknkayaa/TermiteClone/blob/master/Application/resource/143816.png)
+![](https://github.com/haknkayaa/TermiteClone/blob/master/Application/resource/143843.png)
 
 ### Development Environment:
 - Qt 5.15.2
