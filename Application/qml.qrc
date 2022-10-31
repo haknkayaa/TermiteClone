@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ui/CButton.qml</file>
+        <file>ui/CComboBox.qml</file>
+        <file>ui/CTextEditArea.qml</file>
+        <file>ui/CTextEditLine.qml</file>
+        <file>ui/ThemeOptions.qml</file>
+        <file>ui/CToolButton.qml</file>
+        <file>resource/send-one.png</file>
+        <file>OptionDialog.qml</file>
+        <file>ui/CGroupBox.qml</file>
+        <file>ui/CRadioButton.qml</file>
+        <file>resource/tick.png</file>
+        <file>ui/CCheckBox.qml</file>
+    </qresource>
+</RCC>
