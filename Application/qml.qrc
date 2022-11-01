@@ -13,5 +13,6 @@
         <file>ui/CRadioButton.qml</file>
         <file>resource/tick.png</file>
         <file>ui/CCheckBox.qml</file>
+        <file>js/jsController.js</file>
     </qresource>
 </RCC>

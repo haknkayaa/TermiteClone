@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import "ui"
+import "js/jsController.js" as JsHandler
 
 Window {
     id: root
@@ -13,6 +14,15 @@ Window {
 
     ThemeOptions{
         id: options
+    }
+
+
+    Connections {
+        target: Controller
+        function onReceivedMessage(msg) {
+            console.log("Received message: " + msg)
+            textEditArea.text = textEditArea.text + "$ " + msg
+        }
     }
 
     CButton {
@@ -29,9 +39,7 @@ Window {
         area.onClicked: {
             console.log("hello main.qml")
 
-            var component = Qt.createComponent("OptionDialog.qml")
-            var window    = component.createObject(root)
-            window.show()
+            JsHandler.showSettingsDialog();
         }
     }
 
@@ -57,6 +65,8 @@ Type a string in the edit line (below) and press 'Enter'"
 
 
         text: "Your message..."
+        textFormat: Text.PlainText
+        cursorVisible: true
     }
 
     CButton {
@@ -66,9 +76,13 @@ Type a string in the edit line (below) and press 'Enter'"
         width: 235
         height: 35
 
-        buttonText: "COM1, 57600 bps, 8N1, No Handshake"
+        buttonText: Controller.ConnectionStatus ?  "COM1, 57600 bps, 8N1, No Handshake" : "Disconnected - Click to connect"
         buttonTextColor: "white"
         buttonBackgroundColor: options.primaryColor
+
+        area.onClicked: {
+            Controller.ConnectionStatus ? Controller.closeSerialPort() : Controller.openSerialPort();
+        }
 
     }
 
@@ -80,6 +94,11 @@ Type a string in the edit line (below) and press 'Enter'"
         height: 35
 
         buttonText: "Clear"
+
+
+        area.onClicked: {
+            JsHandler.clearTextArea();
+        }
     }
 
     CButton {
@@ -90,6 +109,10 @@ Type a string in the edit line (below) and press 'Enter'"
         height: 35
 
         buttonText: "About"
+
+        area.onClicked: {
+            JsHandler.showAboutDialog();
+        }
     }
 
     CButton {
@@ -100,6 +123,10 @@ Type a string in the edit line (below) and press 'Enter'"
         height: 35
 
         buttonText: "Close"
+
+        area.onClicked: {
+            JsHandler.closeApplication();
+        }
     }
 
     CToolButton {
@@ -109,6 +136,10 @@ Type a string in the edit line (below) and press 'Enter'"
 
         buttonWidth: 35
         buttonHeight: 35
+
+        area.onClicked: {
+            JsHandler.sendMessage();
+        }
     }
 
 

@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Layouts 1.15
 import "ui"
+import "js/jsController.js" as JsHandler
 
 Window {
     id: root
@@ -10,7 +11,7 @@ Window {
     color: options.mainBackground
     title: qsTr("Settings")
 
-    CGroupBox{
+    CGroupBox {
         x: 13
         y: 12
         width: 228
@@ -26,6 +27,14 @@ Window {
             anchors.horizontalCenter: parent.left
             anchors.horizontalCenterOffset: 40
 
+            ListModel {
+                id: comPortList
+                ListElement {
+                    text: "None"
+                }
+
+            }
+
             Text {
                 text: "Port"
                 anchors.right: parent.right
@@ -33,6 +42,7 @@ Window {
                 color: options.textColor
 
                 CComboBox {
+                    id: combobox_port
                     height: 25
                     anchors {
                         verticalCenter: parent.verticalCenter
@@ -40,8 +50,7 @@ Window {
                         leftMargin: 30
                     }
 
-                    model: ["None"]
-                    // currentText: "None"
+                    model: comPortList
                 }
             }
 
@@ -52,6 +61,7 @@ Window {
                 color: options.textColor
 
                 CComboBox {
+                    id: combobox_baudrate
                     height: 25
                     anchors {
                         verticalCenter: parent.verticalCenter
@@ -59,8 +69,8 @@ Window {
                         leftMargin: 30
                     }
 
-                    model: ["1200", "2400", "4800", "9600", "14400", "19200", "28800", "38400", "57600", "115200", "230400" ]
-                    // currentText: "57600"
+                    model: ["1200", "2400", "4800", "9600", "14400", "19200", "28800", "38400", "57600", "115200", "230400"]
+                    currentIndex: 8
                 }
             }
 
@@ -71,6 +81,7 @@ Window {
                 color: options.textColor
 
                 CComboBox {
+                    id: combobox_dataBits
                     height: 25
                     anchors {
                         verticalCenter: parent.verticalCenter
@@ -79,7 +90,7 @@ Window {
                     }
 
                     model: ["5", "6", "7", "8"]
-                    // currentText: "8"
+                    currentIndex: 3
                 }
             }
 
@@ -90,6 +101,7 @@ Window {
                 color: options.textColor
 
                 CComboBox {
+                    id: combobox_stopBits
                     height: 25
                     anchors {
                         verticalCenter: parent.verticalCenter
@@ -97,8 +109,8 @@ Window {
                         leftMargin: 30
                     }
 
-                    model: ["1", "2"]
-                    // currentText: "1"
+                    model: ["1", "1.5", "2"]
+                    currentIndex: 0
                 }
             }
 
@@ -109,6 +121,7 @@ Window {
                 color: options.textColor
 
                 CComboBox {
+                    id: combobox_parity
                     height: 25
                     anchors {
                         verticalCenter: parent.verticalCenter
@@ -117,7 +130,7 @@ Window {
                     }
 
                     model: ["None", "Even", "Odd", "Mark", "Space"]
-                    // currentText: "None"
+                    currentIndex: 0
                 }
             }
 
@@ -128,6 +141,7 @@ Window {
                 color: options.textColor
 
                 CComboBox {
+                    id: combobox_flowControl
                     height: 25
                     anchors {
                         verticalCenter: parent.verticalCenter
@@ -136,7 +150,7 @@ Window {
                     }
 
                     model: ["None", "RTS/CTS", "DTR/DSR", "XON/XOFF"]
-                    // currentText: "None"
+                    currentIndex: 0
                 }
             }
 
@@ -146,7 +160,16 @@ Window {
                 font.pixelSize: 12
                 color: options.textColor
 
+                ListModel {
+                    id: comForwardPortList
+                    ListElement {
+                        text: "None"
+                    }
+
+                }
+
                 CComboBox {
+                    id: combobox_forwardPort
                     height: 25
                     anchors {
                         verticalCenter: parent.verticalCenter
@@ -154,14 +177,14 @@ Window {
                         leftMargin: 30
                     }
 
-                    model: ["None"]
-                    // currentText: "None"
+                    model: comForwardPortList
+                    currentIndex: 0
                 }
             }
         }
     }
 
-    CGroupBox{
+    CGroupBox {
         x: 247
         y: 12
         width: 190
@@ -169,7 +192,7 @@ Window {
         groupTitleText: "Transmitted Text"
 
         CRadioButton {
-            id: cRadioButton
+            id: radiobutton_appendnothing
             x: 8
             y: 8
             width: 137
@@ -179,7 +202,7 @@ Window {
         }
 
         CRadioButton {
-            id: cRadioButton1
+            id: radiobutton_appendCR
             x: 8
             y: 30
             width: 137
@@ -188,7 +211,7 @@ Window {
             text: "Append CR"
         }
         CRadioButton {
-            id: cRadioButton2
+            id: radiobutton_appendLF
             x: 8
             y: 52
             width: 137
@@ -197,7 +220,7 @@ Window {
             text: "Append LF"
         }
         CRadioButton {
-            id: cRadioButton3
+            id: radiobutton_appendCRLF
             x: 8
             y: 74
             width: 137
@@ -207,7 +230,7 @@ Window {
         }
 
         CCheckBox {
-            id: cCheckBox
+            id: checkbox_localEcho
             x: 8
             y: 96
             width: 137
@@ -217,7 +240,7 @@ Window {
         }
     }
 
-    CGroupBox{
+    CGroupBox {
         x: 443
         y: 12
         width: 193
@@ -225,65 +248,57 @@ Window {
         groupTitleText: "Options"
 
         CCheckBox {
-            id: cCheckBox1
+            id: checkbox_stayOnTop
             x: 8
             y: 8
             width: 176
             height: 20
 
-
             text: "Stay on top"
         }
 
-
         CCheckBox {
-            id: cCheckBox2
+            id: checkbox_quitOnEscape
             x: 8
             y: 30
             width: 176
             height: 20
 
-
             text: "Quit on Escape"
         }
 
-
         CCheckBox {
-            id: cCheckBox3
+            id: checkbox_autocompleteEditLine
             x: 8
             y: 52
             width: 176
             height: 20
 
-
             text: "Autocomplete edit line"
         }
 
-
         CCheckBox {
-            id: cCheckBox4
+            id: checkbox_keepHistory
             x: 8
             y: 74
             width: 176
             height: 20
 
-
             text: "Keep history"
         }
 
         CCheckBox {
-            id: cCheckBox5
+            id: checkbox_closePortWhenInactive
             x: 8
             y: 96
             width: 176
             height: 20
 
-
             text: "Close port when inactive"
         }
     }
 
-    CGroupBox{
+    CGroupBox {
         x: 247
         y: 139
         width: 190
@@ -318,7 +333,7 @@ Window {
         }
 
         CCheckBox {
-            id: cCheckBox6
+            id: checkbox_enableWordWrap
             x: 8
             y: 89
             width: 174
@@ -328,24 +343,31 @@ Window {
         }
 
         CTextEditArea {
-            id: cTextEditArea
+            id: textinput_polling
             x: 82
             y: 5
             width: 100
             height: 25
 
+            text: "100"
+            cursorVisible: true
+            textFormat: Text.PlainText
         }
 
         CTextEditArea {
-            id: cTextEditArea1
+            id: textinput_maxLines
             x: 82
             y: 31
             width: 100
             height: 25
+
+            text: "0"
+            textFormat: Text.PlainText
+            cursorVisible: true
         }
 
         CComboBox {
-            id: cComboBox
+            id: combobox_font
             x: 82
             y: 58
             width: 100
@@ -356,7 +378,7 @@ Window {
         }
     }
 
-    CGroupBox{
+    CGroupBox {
         x: 443
         y: 139
         width: 193
@@ -365,23 +387,32 @@ Window {
     }
 
     CButton {
-        id: cButton
+        id: button_cancel
         x: 470
         y: 262
         width: 80
         height: 25
 
         buttonText: "Cancel"
+
+        area.onClicked: {
+            JsHandler.cancelButton()
+        }
     }
 
     CButton {
-        id: cButton1
+        id: button_ok
         x: 556
         y: 262
         width: 80
         height: 25
 
         buttonText: "OK"
+
+        area.onClicked: {
+            JsHandler.okButton()
+            root.close()
+        }
     }
 
     Text {
@@ -394,7 +425,7 @@ Window {
     }
 
     CComboBox {
-        id: cComboBox1
+        id: combobox_language
         x: 153
         y: 263
         width: 120
@@ -404,7 +435,9 @@ Window {
         // currentText: "English"
     }
 
-
+    Component.onCompleted: {
+        JsHandler.updateComList();
+    }
 }
 
 /*##^##
@@ -412,4 +445,3 @@ Designer {
     D{i:0;formeditorZoom:1.1}
 }
 ##^##*/
-

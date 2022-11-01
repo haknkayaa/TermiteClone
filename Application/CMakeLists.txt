@@ -11,11 +11,17 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick SerialPort)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick SerialPort)
 
 set(PROJECT_SOURCES
         main.cpp
+        src/SettingsHandler.cpp
+        src/SettingsHandler.h
+        src/SerialHandler.cpp
+        src/SerialHandler.h
+        src/Controller.cpp
+        src/Controller.h
         qml.qrc
 )
 
@@ -43,7 +49,7 @@ else()
 endif()
 
 target_link_libraries(TermiteClone
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
+  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::SerialPort)
 
 #set_target_properties(TermiteClone PROPERTIES
 #    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

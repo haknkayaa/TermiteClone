@@ -9,7 +9,7 @@ TextArea {
     textFormat: Text.RichText
     font.family: "Inter"
     font.pixelSize: 12
-    placeholderText: "Placeholder text"
+    placeholderText: ""
     placeholderTextColor: options.textColor
 
     background: Rectangle {
